@@ -1,0 +1,19 @@
+[tool.poetry]
+name = 'dash_api'
+version = '0.1.0'
+description = 'Rest api that provides front-end to information posted to wh00t server'
+authors = ['roboto84 <7658704+roboto84@users.noreply.github.com>']
+
+[tool.poetry.dependencies]
+python = '^3.8'
+uvicorn = '^0.13.3'
+fastapi = '^0.63.0'
+fastapi-utils = '^0.2.1'
+python-dotenv = '^0.15.0'
+
+[tool.poetry.dev-dependencies]
+pytest = '^5.2'
+
+[build-system]
+requires = ['poetry-core>=1.0.0']
+build-backend = 'poetry.core.masonry.api'
