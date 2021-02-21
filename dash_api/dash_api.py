@@ -7,24 +7,20 @@ from fastapi.middleware.cors import CORSMiddleware
 from server import Server
 from client_network import ClientNetwork
 
-origins = [
-    "http://127.0.0.1:8080/",
-]
-
+origins = ['http://127.0.0.1:8080/']
 app = FastAPI()
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=['*'],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+app.add_middleware(CORSMiddleware, allow_origins=['*'], allow_credentials=True,
+                   allow_methods=['*'], allow_headers=['*'])
 
 
-@app.get("/")
+@app.get('/')
 def home():
-    messages = socket_network.get_message_history()
-    return {'message': messages}
+    return {'message': socket_network.get_message_history()}
+
+
+@app.get('/air/')
+def home():
+    return {'message': list(filter(lambda key: key['id'] == 'air_bot', socket_network.get_message_history()))}
 
 
 if __name__ == '__main__':

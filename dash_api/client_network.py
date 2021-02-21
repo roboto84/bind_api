@@ -51,6 +51,7 @@ class ClientNetwork:
                 if package['id'] != 'wh00t_server' and package['profile'] != 'user':
                     self.number_of_messages += 1
                     self.message_history.append(package)
+                    self.trim_message_history()
                     print(f'received message: {str(package)}')
             except OSError as os_error:  # Possibly client has left the chat.
                 self.logger.error(f'Received OSError: {(str(os_error))}')
@@ -61,9 +62,8 @@ class ClientNetwork:
                 os._exit(1)
 
     def get_message_history(self) -> List[dict]:
-        self.trim_message_history()
         return self.message_history
 
     def trim_message_history(self) -> NoReturn:
-        if len(self.message_history) > 20:
+        if len(self.message_history) > 150:
             self.message_history.pop(0)
