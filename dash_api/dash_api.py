@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from server import Server
-from client_network import ClientNetwork
+from wh00t_core.library.client_network import ClientNetwork
 
 origins = ['http://127.0.0.1:8080/']
 app = FastAPI()
@@ -34,7 +34,7 @@ if __name__ == '__main__':
         SOCKET_SERVER_PORT = int(os.getenv('SOCKET_SERVER_PORT'))
         HTTP_SERVER_PORT = int(os.getenv('HTTP_SERVER_PORT'))
 
-        socket_network = ClientNetwork(logging, HOST_SERVER_ADDRESS, SOCKET_SERVER_PORT)
+        socket_network = ClientNetwork(HOST_SERVER_ADDRESS, SOCKET_SERVER_PORT, 'dash_api', 'app', logging)
         config = uvicorn.Config(app, host=HOST_SERVER_ADDRESS, port=HTTP_SERVER_PORT, log_level='info', loop='asyncio')
         server = Server(config=config)
 
