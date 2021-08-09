@@ -10,7 +10,7 @@ uvicorn = '^0.13.3'
 fastapi = '^0.63.0'
 fastapi-utils = '^0.2.1'
 python-dotenv = '^0.15.0'
-wh00t-core = {git = 'https://github.com/roboto84/wh00t_core.git', rev = 'develop'}
+wh00t-core = {git = 'https://github.com/roboto84/wh00t_core.git', branch = 'develop'}
 
 [tool.poetry.dev-dependencies]
 pytest = '^5.2'
