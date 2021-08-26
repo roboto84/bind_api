@@ -3,6 +3,7 @@ import logging.config
 import uvicorn
 import ast
 import time
+from __init__ import __version__
 from dotenv import load_dotenv
 from fastapi import FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -18,6 +19,13 @@ app.add_middleware(CORSMiddleware, allow_origins=['*'], allow_credentials=True,
 def home():
     return {
         'message': socket_network.get_message_history()
+    }
+
+
+@app.get('/version/', status_code=status.HTTP_200_OK)
+def air_home():
+    return {
+        'version': __version__
     }
 
 
