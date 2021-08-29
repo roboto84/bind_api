@@ -36,6 +36,13 @@ def air_home():
     }
 
 
+@app.get('/chat/', status_code=status.HTTP_200_OK)
+def air_home():
+    return {
+        'message': list(filter(lambda key: key['profile'] == 'user', socket_network.get_message_history()))
+    }
+
+
 @app.get('/lexicon/', status_code=status.HTTP_200_OK)
 def lexicon_home():
     return {
@@ -45,28 +52,9 @@ def lexicon_home():
 
 @app.get('/lexicon/word_search/{search_word}', status_code=status.HTTP_200_OK)
 def lexicon_word_search(search_word: str):
-    socket_network.send_message('get_word_definition', str({'search_word': search_word}))
-    definition_ready: bool = False
-    message_unpacked: dict = {}
-    max_loops: int = 20
-    max_loop_counter: int = 0
-
-    while not definition_ready and max_loop_counter < max_loops:
-        messages = list(filter(lambda key: key['id'] == 'lexicon_bot', socket_network.get_message_history()))
-        for message in messages:
-            message_unpacked: dict = ast.literal_eval(message['message'])
-            if 'word' in message_unpacked and message_unpacked['word'] == search_word:
-                definition_ready = True
-                break
-        max_loop_counter += 1
-        time.sleep(.25)
-
     return_object: dict = {
         'search_word': search_word,
-        'definition': message_unpacked
-    }
-    if max_loop_counter == max_loops:
-        return_object['definition'] = {
+        'definition': {
             'word': search_word,
             'part_of_speech': 'unknown',
             'pronounce': 'unknown',
@@ -74,6 +62,25 @@ def lexicon_word_search(search_word: str):
             'definition': ['word was not found.'],
             'example': 'none'
         }
+    }
+    socket_network.send_message('get_word_definition', str({'search_word': search_word}))
+    definition_ready: bool = False
+    max_loops: int = 20
+    max_loop_counter: int = 0
+
+    while not definition_ready and max_loop_counter < max_loops:
+        messages = list(filter(lambda key: key['id'] == 'lexicon_bot', socket_network.get_message_history()))
+        for message in messages:
+            message_unpacked: dict = ast.literal_eval(message['message'])
+            if 'word_break' in message_unpacked['merriam_webster'] \
+                    and message_unpacked['merriam_webster']['word_break'] == search_word \
+                    or 'word' in message_unpacked['oxford'] \
+                    and message_unpacked['oxford']['word'] == search_word:
+                definition_ready = True
+                return_object['definition'] = message_unpacked
+                break
+        max_loop_counter += 1
+        time.sleep(.25)
     return return_object
 
 
