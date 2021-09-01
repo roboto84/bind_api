@@ -54,30 +54,45 @@ def lexicon_home():
 def lexicon_word_search(search_word: str):
     return_object: dict = {
         'search_word': search_word,
+        'spelling_suggestions': ['Sorry, even suggestions could not be found.'],
         'definition': {
-            'word': search_word,
-            'part_of_speech': 'unknown',
-            'pronounce': 'unknown',
-            'audio': '',
-            'definition': ['word was not found.'],
-            'example': 'none'
+            'merriam_webster': {
+                'state': 'unavailable',
+                'word_break': 'unknown',
+                'pronounce': 'unknown',
+                'date_first_used': 'n/a',
+                'etymology': 'unknown',
+                'stems': [],
+                'definition': ['word was not found.']
+            },
+            'oxford': {
+                'state': 'unavailable',
+                'word': search_word,
+                'part_of_speech': 'unknown',
+                'pronounce': 'unknown',
+                'audio': '',
+                'definition': [],
+                'example': 'none'
+            }
         }
     }
     socket_network.send_message('get_word_definition', str({'search_word': search_word}))
-    definition_ready: bool = False
+    result_ready: bool = False
     max_loops: int = 20
     max_loop_counter: int = 0
 
-    while not definition_ready and max_loop_counter < max_loops:
+    while not result_ready and max_loop_counter < max_loops:
         messages = list(filter(lambda key: key['id'] == 'lexicon_bot', socket_network.get_message_history()))
         for message in messages:
             message_unpacked: dict = ast.literal_eval(message['message'])
-            if 'word_break' in message_unpacked['merriam_webster'] \
-                    and message_unpacked['merriam_webster']['word_break'] == search_word \
-                    or 'word' in message_unpacked['oxford'] \
-                    and message_unpacked['oxford']['word'] == search_word:
-                definition_ready = True
-                return_object['definition'] = message_unpacked
+            if message_unpacked['search_word'] == search_word:
+                if message_unpacked['merriam_webster']['state'] == 'available':
+                    return_object['definition']['merriam_webster'] = message_unpacked['merriam_webster']
+                if message_unpacked['oxford']['state'] == 'available':
+                    return_object['definition']['oxford'] = message_unpacked['oxford']
+                if len(message_unpacked['spelling_suggestions']) > 0:
+                    return_object['spelling_suggestions'] = message_unpacked['spelling_suggestions']
+                result_ready = True
                 break
         max_loop_counter += 1
         time.sleep(.25)
