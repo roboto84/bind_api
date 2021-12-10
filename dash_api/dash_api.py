@@ -82,7 +82,8 @@ def lexicon_word_search(search_word: str):
     max_loop_counter: int = 0
 
     while not result_ready and max_loop_counter < max_loops:
-        messages = list(filter(lambda key: key['id'] == 'lexicon_bot', socket_network.get_message_history()))
+        messages = list(filter(lambda data: data['id'] == 'lexicon_bot' and data['category'] == 'word_definition',
+                               socket_network.get_message_history()))
         for message in messages:
             message_unpacked: dict = ast.literal_eval(message['message'])
             if message_unpacked['search_word'] == search_word:

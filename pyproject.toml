@@ -7,10 +7,9 @@ authors = ['roboto84 <7658704+roboto84@users.noreply.github.com>']
 [tool.poetry.dependencies]
 python = '^3.8'
 uvicorn = '^0.13.3'
-fastapi = '^0.63.0'
-fastapi-utils = '^0.2.1'
+fastapi = '^0.65.2'
 python-dotenv = '^0.15.0'
-wh00t-core = {git = 'https://github.com/roboto84/wh00t_core.git', tag = 'v0.2.2'}
+wh00t-core = {git = 'https://github.com/roboto84/wh00t_core.git', tag = 'v0.3.0'}
 
 [tool.poetry.dev-dependencies]
 pytest = '^5.2'
