@@ -1,5 +1,10 @@
 =================
-dash_api
+roboto_api
 =================
 
-Rest api that provides front-end to information posted to wh00t server
+REST API that provides data to front-end about various information services
+
+Commit Conventions
+----------------------
+Git commit conventions follows Conventional Commits message conventions explained in detail on their website
+(https://www.conventionalcommits.org)

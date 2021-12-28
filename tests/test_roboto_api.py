@@ -1,4 +1,4 @@
-from dash_api import __version__
+from roboto_api import __version__
 
 
 def test_version():
