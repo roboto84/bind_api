@@ -9,10 +9,10 @@ python = '^3.9'
 fastapi = '^0.65.2'
 fastapi-utils = '^0.2.1'
 python-dotenv = '^0.15.0'
-lexicon-core = {git = 'https://github.com/roboto84/lexicon_core.git', rev = '607b008'}
-air-core = {git = 'https://github.com/roboto84/air_core.git', rev = 'ec09aa5'}
-wh00t-core = {git = 'https://github.com/roboto84/wh00t_core.git', tag = 'v0.4.0'}
-willow-core = {git = 'https://github.com/roboto84/willow_core.git', rev = '9621b80'}
+lexicon = {git = 'https://github.com/roboto84/lexicon.git', rev = '9e22f0d9'}
+air-core = {git = 'https://github.com/roboto84/air_core.git', rev = '56d50494'}
+wh00t-core = {git = 'https://github.com/roboto84/wh00t_core.git', tag = 'v0.4.1'}
+willow-core = {git = 'https://github.com/roboto84/willow_core.git', rev = '59d8f44'}
 uvicorn = {extras = ["standard"], version = "^0.16.0"}
 
 [tool.poetry.dev-dependencies]

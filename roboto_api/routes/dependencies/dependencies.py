@@ -8,7 +8,7 @@ from sqlite3 import DatabaseError
 from dotenv import load_dotenv
 from wh00t_core.library.client_network import ClientNetwork
 from air_core.library.air_db import AirDb
-from lexicon_core.library.db.lexicon_db import LexiconDb
+from lexicon.library.lexicon import Lexicon
 from willow_core.library.file_handler import FileHandler
 from .web_socket_manager import WebSocketManager
 
@@ -27,11 +27,20 @@ class Dependencies:
             'SOCKET_SERVER_PORT': int(os.getenv('SOCKET_SERVER_PORT')),
             'HTTP_SERVER_PORT': int(os.getenv('HTTP_SERVER_PORT')),
             'AIR_DB': str(os.getenv('AIR_DB')),
-            'LEXI_DB': str(os.getenv('LEXI_DB'))
+            'LEXI_DB': str(os.getenv('LEXI_DB')),
+            'MERRIAM_WEBSTER_API_KEY': str(os.getenv('MERRIAM_WEBSTER_API_KEY')),
+            'OXFORD_APP_ID': str(os.getenv('OXFORD_APP_ID')),
+            'OXFORD_APP_KEY': str(os.getenv('OXFORD_APP_KEY'))
         }
 
         self._air_db: AirDb = self.set_db(self._environment['AIR_DB'], AirDb)
-        self._lexi_db: LexiconDb = self.set_db(self._environment['LEXI_DB'], LexiconDb)
+        self._lexi: Lexicon = Lexicon(
+            self._environment['MERRIAM_WEBSTER_API_KEY'],
+            self._environment['OXFORD_APP_ID'],
+            self._environment['OXFORD_APP_KEY'],
+            self._environment['LEXI_DB'],
+            logging
+        )
         self._socket_network: ClientNetwork = ClientNetwork(
             self._environment['HOST_SERVER_ADDRESS'],
             self._environment['SOCKET_SERVER_PORT'],
@@ -48,7 +57,7 @@ class Dependencies:
         self._version = version
 
     @staticmethod
-    def set_db(env_db_path: str, db_class: Callable) -> Optional[AirDb or LexiconDb]:
+    def set_db(env_db_path: str, db_class: Callable) -> Optional[AirDb]:
         if FileHandler.file_exists(env_db_path):
             sqlite_db = db_class(logging, env_db_path)
             return sqlite_db
@@ -61,8 +70,8 @@ class Dependencies:
     def get_air_db(self) -> AirDb:
         return self._air_db
 
-    def get_lexi_db(self) -> LexiconDb:
-        return self._lexi_db
+    def get_lexi(self) -> Lexicon:
+        return self._lexi
 
     def get_wh00t_socket(self) -> ClientNetwork:
         return self._socket_network

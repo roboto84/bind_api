@@ -1,6 +1,7 @@
 
 from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect
 from fastapi_utils.cbv import cbv
+from wh00t_core.library.client_network import NetworkUtils
 from .dependencies.dependencies import dash_dependencies
 from .dependencies.web_socket_manager import WebSocketManager
 
@@ -19,7 +20,8 @@ class ChatApi:
             lambda key: key['category'] == 'chat_message', self.web_sock_manager.get_wh00t_history()))
         message_history = [self.web_sock_manager.create_web_sock_package(message) for message in message_history]
         await self.web_sock_manager.send_web_sock_message(message_history, websocket)
-        self.web_sock_manager.send_wh00t_message(client_id, f'{client_id} joined the chat')
+        self.web_sock_manager.send_wh00t_message(client_id,
+                                                 f'{client_id} has connected at {NetworkUtils.message_time()}')
 
         try:
             while True:
@@ -27,4 +29,5 @@ class ChatApi:
                 self.web_sock_manager.send_wh00t_message(client_id, web_sock_message)
         except WebSocketDisconnect:
             self.web_sock_manager.disconnect(websocket)
-            self.web_sock_manager.send_wh00t_message(client_id, f'{client_id} left the chat')
+            self.web_sock_manager.send_wh00t_message(client_id,
+                                                     f'{client_id} has left the chat at {NetworkUtils.message_time()}')

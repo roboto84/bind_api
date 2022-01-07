@@ -2,13 +2,14 @@
 import json
 from typing import List
 from fastapi import WebSocket
-from wh00t_core.library.client_network import ClientNetwork
+from wh00t_core.library.client_network import ClientNetwork, NetworkCommons
 
 
 class WebSocketManager:
     def __init__(self, wh00t_network: ClientNetwork):
         self._wh00t_sock: ClientNetwork = wh00t_network
         self._web_sock_connection: List[WebSocket] = []
+        self._network_commons = NetworkCommons()
 
     def get_wh00t_history(self) -> List[dict]:
         return self._wh00t_sock.get_message_history()
@@ -29,6 +30,10 @@ class WebSocketManager:
             # Lost wh00t socket connection
             return False
         elif package['category'] == 'chat_message':
+            await self.broadcast(self.create_web_sock_package(package))
+            return True
+        elif package['id'] == self._network_commons.get_server_id() and \
+                package['category'] in ['broadcast_exit', 'broadcast_intro']:
             await self.broadcast(self.create_web_sock_package(package))
             return True
         else:
