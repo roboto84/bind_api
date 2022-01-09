@@ -41,3 +41,12 @@ class AirApi:
         return {
             'weather_forecast': forecast_weather_data
         }
+
+    @router.get('/air/weather_report', status_code=status.HTTP_200_OK)
+    def air_weather_report(self):
+        current_weather_data: dict = self.air_db.get_current_weather()
+        forecast_weather_data: list[dict] = self.air_db.get_weather_forecast()
+        return {
+            'current_weather': current_weather_data,
+            'weather_forecast': forecast_weather_data
+        }
