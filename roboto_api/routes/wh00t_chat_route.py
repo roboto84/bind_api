@@ -20,8 +20,10 @@ class ChatApi:
             lambda key: key['category'] == 'chat_message', self.web_sock_manager.get_wh00t_history()))
         message_history = [self.web_sock_manager.create_web_sock_package(message) for message in message_history]
         await self.web_sock_manager.send_web_sock_message(message_history, websocket)
-        self.web_sock_manager.send_wh00t_message(client_id,
-                                                 f'{client_id} has connected at {NetworkUtils.message_time()}')
+
+        # TODO: Quiet web socket client connection for now until session can be managed better
+        # self.web_sock_manager.send_wh00t_message(client_id,
+        #                                         f'{client_id} has connected at {NetworkUtils.message_time()}')
 
         try:
             while True:
@@ -29,5 +31,7 @@ class ChatApi:
                 self.web_sock_manager.send_wh00t_message(client_id, web_sock_message)
         except WebSocketDisconnect:
             self.web_sock_manager.disconnect(websocket)
-            self.web_sock_manager.send_wh00t_message(client_id,
-                                                     f'{client_id} has left the chat at {NetworkUtils.message_time()}')
+
+            # TODO: Quiet web socket client disconnection for now until session can be managed better
+            # self.web_sock_manager.send_wh00t_message(client_id,
+            #                                         f'{client_id} has left the chat at {NetworkUtils.message_time()}')
