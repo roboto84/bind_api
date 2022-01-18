@@ -21,6 +21,11 @@ class LexiconApi:
             )
         }
 
+    @router.get('/lexicon/random_word', status_code=status.HTTP_200_OK)
+    def lexicon_random_word(self):
+        random_word_definition: dict = self.lexi.get_random_word_def()
+        return random_word_definition
+
     @router.get('/lexicon/words', status_code=status.HTTP_200_OK)
     def lexicon_words(self):
         lexicon_words: list[str] = self.lexi.get_stored_words()
@@ -30,5 +35,6 @@ class LexiconApi:
 
     @router.get('/lexicon/word_search/{search_word}', status_code=status.HTTP_200_OK)
     def lexicon_word_search(self, search_word: str):
-        return_object = self.lexi.get_definition(search_word)
-        return return_object
+        searched_word_definition: dict = self.lexi.get_definition(search_word)
+        return searched_word_definition
+
