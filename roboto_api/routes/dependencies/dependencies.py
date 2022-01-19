@@ -11,6 +11,7 @@ from air_core.library.air_db import AirDb
 from lexicon.library.lexicon import Lexicon
 from willow_core.library.file_handler import FileHandler
 from .web_socket_manager import WebSocketManager
+from .session import Session
 
 
 class Dependencies:
@@ -48,6 +49,8 @@ class Dependencies:
             'app',
             logging
         )
+        self._session: Session = Session()
+        self._session.set_word_of_day(self._lexi.get_random_word_def())
         accept_thread: Thread = Thread(target=self._socket_network.sock_it())
         accept_thread.start()
         accept_thread.join()
@@ -66,6 +69,9 @@ class Dependencies:
 
     def get_version(self) -> str:
         return self._version
+
+    def get_session(self) -> Session:
+        return self._session
 
     def get_air_db(self) -> AirDb:
         return self._air_db
@@ -86,4 +92,4 @@ class Dependencies:
         return self._logger
 
 
-dash_dependencies: Dependencies = Dependencies()
+dependencies: Dependencies = Dependencies()

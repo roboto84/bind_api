@@ -3,15 +3,15 @@ from fastapi import APIRouter, Depends, status
 from fastapi_utils.cbv import cbv
 from air_core.library.air_db import AirDb
 from wh00t_core.library.client_network import ClientNetwork
-from .dependencies.dependencies import dash_dependencies
+from .dependencies.dependencies import dependencies
 
 router = APIRouter()
 
 
 @cbv(router)
 class AirApi:
-    wh00t_socket: ClientNetwork = Depends(dash_dependencies.get_wh00t_socket)
-    air_db: AirDb = Depends(dash_dependencies.get_air_db)
+    wh00t_socket: ClientNetwork = Depends(dependencies.get_wh00t_socket)
+    air_db: AirDb = Depends(dependencies.get_air_db)
 
     @router.get('/air/wh00t_messages', status_code=status.HTTP_200_OK)
     def air_wh00t_messages(self):

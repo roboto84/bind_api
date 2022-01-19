@@ -1,7 +1,7 @@
 
 from fastapi import APIRouter, Depends, status
 from fastapi_utils.cbv import cbv
-from .dependencies.dependencies import dash_dependencies
+from .dependencies.dependencies import dependencies
 from wh00t_core.library.client_network import ClientNetwork
 
 router = APIRouter()
@@ -9,8 +9,8 @@ router = APIRouter()
 
 @cbv(router)
 class RootApi:
-    wh00t_socket: ClientNetwork = Depends(dash_dependencies.get_wh00t_socket)
-    version: str = Depends(dash_dependencies.get_version)
+    wh00t_socket: ClientNetwork = Depends(dependencies.get_wh00t_socket)
+    version: str = Depends(dependencies.get_version)
 
     @router.get('/', status_code=status.HTTP_200_OK)
     def root_home(self):

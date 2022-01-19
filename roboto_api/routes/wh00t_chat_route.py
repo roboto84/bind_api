@@ -2,7 +2,7 @@
 from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect
 from fastapi_utils.cbv import cbv
 from wh00t_core.library.client_network import NetworkUtils
-from .dependencies.dependencies import dash_dependencies
+from .dependencies.dependencies import dependencies
 from .dependencies.web_socket_manager import WebSocketManager
 
 router = APIRouter()
@@ -10,7 +10,7 @@ router = APIRouter()
 
 @cbv(router)
 class ChatApi:
-    web_sock_manager: WebSocketManager = Depends(dash_dependencies.get_web_sock_manager)
+    web_sock_manager: WebSocketManager = Depends(dependencies.get_web_sock_manager)
 
     @router.websocket("/wh00t_chat/{client_id}")
     async def websocket_endpoint(self, websocket: WebSocket, client_id: str):
