@@ -73,10 +73,10 @@ class LexiconApi:
                     'error': str(e)
                 })
 
-    @router.get('/lexicon/words', status_code=status.HTTP_200_OK)
-    def lexicon_words(self):
+    @router.get('/lexicon/words/{number_of_words}', status_code=status.HTTP_200_OK)
+    def lexicon_words(self, number_of_words: int):
         try:
-            lexicon_words: list[str] = self.lexi.get_stored_words()
+            lexicon_words: list[str] = self.lexi.get_stored_words(number_of_words)
         except Exception as e:
             raise HTTPException(
                 status_code=status.HTTP_417_EXPECTATION_FAILED,
