@@ -27,6 +27,8 @@ class Dependencies:
             'HOST_SERVER_ADDRESS': str(os.getenv('HOST_SERVER_ADDRESS')),
             'SOCKET_SERVER_PORT': int(os.getenv('SOCKET_SERVER_PORT')),
             'HTTP_SERVER_PORT': int(os.getenv('HTTP_SERVER_PORT')),
+            'SSL_KEYFILE': str(os.getenv('SSL_KEYFILE')),
+            'SSL_CERT_FILE': str(os.getenv('SSL_CERT_FILE')),
             'AIR_DB': str(os.getenv('AIR_DB')),
             'LEXI_DB': str(os.getenv('LEXI_DB')),
             'MERRIAM_WEBSTER_API_KEY': str(os.getenv('MERRIAM_WEBSTER_API_KEY')),

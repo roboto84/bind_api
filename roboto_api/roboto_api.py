@@ -30,7 +30,9 @@ if __name__ == '__main__':
             host=dependencies.get_environment()['HOST_SERVER_ADDRESS'],
             port=dependencies.get_environment()['HTTP_SERVER_PORT'],
             log_level='info',
-            loop='asyncio'
+            loop='asyncio',
+            ssl_keyfile=dependencies.get_environment()['SSL_KEYFILE'],
+            ssl_certfile=dependencies.get_environment()['SSL_CERT_FILE']
         ))
         with server.run_in_thread():
             dependencies.get_wh00t_socket().receive(
