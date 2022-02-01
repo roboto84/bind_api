@@ -64,7 +64,7 @@ class LexiconApi:
     @router.put('/lexicon/word_of_day', status_code=status.HTTP_200_OK)
     def lexicon_gen_word_of_day(self):
         try:
-            self.session.set_word_of_day(self.lexi.get_random_word_def())
+            self.session.set_new_word_of_day()
         except Exception as e:
             raise HTTPException(
                 status_code=status.HTTP_417_EXPECTATION_FAILED,

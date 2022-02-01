@@ -3,7 +3,6 @@ import os
 import logging.config
 from typing import Callable, Optional
 from logging import Logger
-from threading import Thread
 from sqlite3 import DatabaseError
 from dotenv import load_dotenv
 from wh00t_core.library.client_network import ClientNetwork
@@ -51,11 +50,13 @@ class Dependencies:
             'app',
             logging
         )
-        self._session: Session = Session()
-        self._session.set_word_of_day(self._lexi.get_random_word_def())
-        accept_thread: Thread = Thread(target=self._socket_network.sock_it())
-        accept_thread.start()
-        accept_thread.join()
+
+        try:
+            self._socket_network.sock_it()
+        except ConnectionRefusedError as e:
+            self._logger.info(f'Looks like wh00t services are unavailable:{e}')
+
+        self._session: Session = Session(logging, self._lexi.get_random_word_def)
         self._web_sock_manager = WebSocketManager(self._socket_network)
 
     def set_version(self, version) -> None:
