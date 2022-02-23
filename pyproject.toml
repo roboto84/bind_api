@@ -10,7 +10,7 @@ fastapi = '^0.65.2'
 fastapi-utils = '^0.2.1'
 python-dotenv = '^0.15.0'
 lexicon = {git = 'https://github.com/roboto84/lexicon.git', rev = '05212b1'}
-air-core = {git = 'https://github.com/roboto84/air_core.git', rev = '56d50494'}
+air-core = {git = 'https://github.com/roboto84/air_core.git', rev = 'ff31f4b'}
 wh00t-core = {git = 'https://github.com/roboto84/wh00t_core.git', tag = 'v0.4.2'}
 willow-core = {git = 'https://github.com/roboto84/willow_core.git', rev = '59d8f44'}
 uvicorn = {extras = ["standard"], version = "^0.16.0"}

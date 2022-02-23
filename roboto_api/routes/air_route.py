@@ -1,4 +1,5 @@
 
+from typing import Optional
 from fastapi import APIRouter, Depends, status
 from fastapi_utils.cbv import cbv
 from air_core.library.air_db import AirDb
@@ -22,8 +23,10 @@ class AirApi:
         }
 
     @router.get('/air/weather_history', status_code=status.HTTP_200_OK)
-    def air_weather_history(self):
-        weather_history: list[dict] = self.air_db.get_weather_history()
+    def air_weather_history(self, record_count: Optional[int] = None):
+        two_week_hourly_history: int = 168
+        history_record_count: int = record_count if record_count else two_week_hourly_history
+        weather_history: list[dict] = self.air_db.get_weather_history(history_record_count)
         return {
             'weather_history': weather_history
         }
