@@ -34,7 +34,9 @@ class WebSocketManager:
             return True
         elif package['id'] == self._network_commons.get_server_id() and \
                 package['category'] in ['broadcast_exit', 'broadcast_intro']:
-            await self.broadcast(self.create_web_sock_package(package))
+            # Let's await a concrete mechanism to handle system messages instead of
+            # dumping them on the chat
+            # await self.broadcast(self.create_web_sock_package(package))
             return True
         else:
             return True
