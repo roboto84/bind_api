@@ -4,6 +4,9 @@ import logging.config
 from typing import Callable, Optional
 from logging import Logger
 from sqlite3 import DatabaseError
+
+from air_core.library.air import Air
+from air_core.library.types.types import Unit
 from dotenv import load_dotenv
 from wh00t_core.library.client_network import ClientNetwork
 from air_core.library.air_db import AirDb
@@ -35,6 +38,7 @@ class Dependencies:
             'OXFORD_APP_KEY': str(os.getenv('OXFORD_APP_KEY'))
         }
 
+        self._empty_air = Air(Unit.imperial)
         self._air_db: AirDb = self.set_db(self._environment['AIR_DB'], AirDb)
         self._lexi: Lexicon = Lexicon(
             self._environment['MERRIAM_WEBSTER_API_KEY'],
@@ -78,6 +82,9 @@ class Dependencies:
 
     def get_air_db(self) -> AirDb:
         return self._air_db
+
+    def get_empty_air(self) -> Air:
+        return self._empty_air
 
     def get_lexi(self) -> Lexicon:
         return self._lexi
