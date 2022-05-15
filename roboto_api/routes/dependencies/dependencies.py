@@ -29,15 +29,16 @@ class Dependencies:
             'HOST_SERVER_ADDRESS': str(os.getenv('HOST_SERVER_ADDRESS')),
             'SOCKET_SERVER_PORT': int(os.getenv('SOCKET_SERVER_PORT')),
             'HTTP_SERVER_PORT': int(os.getenv('HTTP_SERVER_PORT')),
-            'SSL_KEYFILE': str(os.getenv('SSL_KEYFILE')),
-            'SSL_CERT_FILE': str(os.getenv('SSL_CERT_FILE')),
             'AIR_DB': str(os.getenv('AIR_DB')),
             'LEXI_DB': str(os.getenv('LEXI_DB')),
             'MERRIAM_WEBSTER_API_KEY': str(os.getenv('MERRIAM_WEBSTER_API_KEY')),
             'OXFORD_APP_ID': str(os.getenv('OXFORD_APP_ID')),
-            'OXFORD_APP_KEY': str(os.getenv('OXFORD_APP_KEY'))
+            'OXFORD_APP_KEY': str(os.getenv('OXFORD_APP_KEY')),
+            'SSL_KEYFILE': str(os.getenv('SSL_KEYFILE', '')),
+            'SSL_CERT_FILE': str(os.getenv('SSL_CERT_FILE', ''))
         }
 
+        self._ssl_state: bool = bool(self._environment['SSL_KEYFILE'] and self._environment['SSL_CERT_FILE'])
         self._empty_air = Air(Unit.imperial)
         self._air_db: AirDb = self.set_db(self._environment['AIR_DB'], AirDb)
         self._lexi: Lexicon = Lexicon(
@@ -79,6 +80,9 @@ class Dependencies:
 
     def get_session(self) -> Session:
         return self._session
+
+    def get_ssl_state(self) -> bool:
+        return self._ssl_state
 
     def get_air_db(self) -> AirDb:
         return self._air_db
