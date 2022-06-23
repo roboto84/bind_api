@@ -12,6 +12,8 @@ from wh00t_core.library.client_network import ClientNetwork
 from air_core.library.air_db import AirDb
 from lexicon.library.lexicon import Lexicon
 from willow_core.library.file_handler import FileHandler
+
+from .air_session import AirSession
 from .web_socket_manager import WebSocketManager
 from .session import Session
 
@@ -30,6 +32,7 @@ class Dependencies:
             'SOCKET_SERVER_PORT': int(os.getenv('SOCKET_SERVER_PORT')),
             'HTTP_SERVER_PORT': int(os.getenv('HTTP_SERVER_PORT')),
             'AIR_DB': str(os.getenv('AIR_DB')),
+            'AIR_LOCATION': str(os.getenv('AIR_LOCATION')),
             'LEXI_DB': str(os.getenv('LEXI_DB')),
             'MERRIAM_WEBSTER_API_KEY': str(os.getenv('MERRIAM_WEBSTER_API_KEY')),
             'OXFORD_APP_ID': str(os.getenv('OXFORD_APP_ID')),
@@ -39,8 +42,11 @@ class Dependencies:
         }
 
         self._ssl_state: bool = bool(self._environment['SSL_KEYFILE'] and self._environment['SSL_CERT_FILE'])
-        self._empty_air = Air(Unit.imperial)
-        self._air_db: AirDb = self.set_db(self._environment['AIR_DB'], AirDb)
+        self._air_session: AirSession = AirSession(
+            self._environment['AIR_LOCATION'],
+            Air(Unit.imperial).get_units(),
+            self.set_db(self._environment['AIR_DB'], AirDb)
+        )
         self._lexi: Lexicon = Lexicon(
             self._environment['MERRIAM_WEBSTER_API_KEY'],
             self._environment['OXFORD_APP_ID'],
@@ -84,11 +90,8 @@ class Dependencies:
     def get_ssl_state(self) -> bool:
         return self._ssl_state
 
-    def get_air_db(self) -> AirDb:
-        return self._air_db
-
-    def get_empty_air(self) -> Air:
-        return self._empty_air
+    def get_air_session(self) -> AirSession:
+        return self._air_session
 
     def get_lexi(self) -> Lexicon:
         return self._lexi
