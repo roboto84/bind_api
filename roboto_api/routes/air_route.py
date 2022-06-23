@@ -23,7 +23,13 @@ class AirApi:
             )
         }
 
-    @router.get('/air/weather_history', status_code=status.HTTP_200_OK)
+    @router.get('/air/weather', status_code=status.HTTP_200_OK)
+    def air_weather(self):
+        return {
+            'weather_location': self.air_session.get_location()
+        }
+
+    @router.get('/air/weather/history', status_code=status.HTTP_200_OK)
     def air_weather_history(self, record_count: Optional[int] = None):
         two_week_hourly_history: int = 168
         history_record_count: int = record_count if record_count else two_week_hourly_history
@@ -33,7 +39,7 @@ class AirApi:
             'weather_history': self.air_session.get_db().get_weather_history(history_record_count)
         }
 
-    @router.get('/air/current_weather', status_code=status.HTTP_200_OK)
+    @router.get('/air/weather/current', status_code=status.HTTP_200_OK)
     def air_current_weather(self):
         return {
             'weather_location': self.air_session.get_location(),
@@ -41,7 +47,7 @@ class AirApi:
             'current_weather': self.air_session.get_db().get_current_weather()
         }
 
-    @router.get('/air/weather_forecast', status_code=status.HTTP_200_OK)
+    @router.get('/air/weather/forecast', status_code=status.HTTP_200_OK)
     def air_weather_forecast(self):
         return {
             'weather_location': self.air_session.get_location(),
@@ -49,7 +55,7 @@ class AirApi:
             'weather_forecast': self.air_session.get_db().get_weather_forecast()
         }
 
-    @router.get('/air/weather_report', status_code=status.HTTP_200_OK)
+    @router.get('/air/weather/report', status_code=status.HTTP_200_OK)
     def air_weather_report(self):
         return {
             'weather_location': self.air_session.get_location(),
