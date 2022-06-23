@@ -25,23 +25,24 @@ if __name__ == '__main__':
     logger: Logger = dependencies.get_logging()
     try:
         dependencies.set_version(__version__)
+        host_address, host_port, ssl_keyfile, ssl_cert_file = dependencies.get_server_settings()
         if dependencies.get_ssl_state():
             logger.info('Running server with embedded SSL')
             server: Server = Server(config=uvicorn.Config(
                 app,
-                host=dependencies.get_environment()['HOST_SERVER_ADDRESS'],
-                port=dependencies.get_environment()['HTTP_SERVER_PORT'],
+                host=host_address,
+                port=host_port,
                 log_level='info',
                 loop='asyncio',
-                ssl_keyfile=dependencies.get_environment()['SSL_KEYFILE'],
-                ssl_certfile=dependencies.get_environment()['SSL_CERT_FILE']
+                ssl_keyfile=ssl_keyfile,
+                ssl_certfile=ssl_cert_file
             ))
         else:
             logger.info('Running server without embedded SSL')
             server: Server = Server(config=uvicorn.Config(
                 app,
-                host=dependencies.get_environment()['HOST_SERVER_ADDRESS'],
-                port=dependencies.get_environment()['HTTP_SERVER_PORT'],
+                host=host_address,
+                port=host_port,
                 log_level='info',
                 loop='asyncio'
             ))

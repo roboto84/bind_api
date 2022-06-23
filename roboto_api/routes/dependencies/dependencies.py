@@ -15,7 +15,7 @@ from willow_core.library.file_handler import FileHandler
 
 from .air_session import AirSession
 from .web_socket_manager import WebSocketManager
-from .session import Session
+from .lexicon_session import LexiconSession
 
 
 class Dependencies:
@@ -47,12 +47,15 @@ class Dependencies:
             Air(Unit.imperial).get_units(),
             self.set_db(self._environment['AIR_DB'], AirDb)
         )
-        self._lexi: Lexicon = Lexicon(
-            self._environment['MERRIAM_WEBSTER_API_KEY'],
-            self._environment['OXFORD_APP_ID'],
-            self._environment['OXFORD_APP_KEY'],
-            self._environment['LEXI_DB'],
-            logging
+        self._lexicon_session: LexiconSession = LexiconSession(
+            logging,
+            Lexicon(
+                self._environment['MERRIAM_WEBSTER_API_KEY'],
+                self._environment['OXFORD_APP_ID'],
+                self._environment['OXFORD_APP_KEY'],
+                self._environment['LEXI_DB'],
+                logging
+            )
         )
         self._socket_network: ClientNetwork = ClientNetwork(
             self._environment['HOST_SERVER_ADDRESS'],
@@ -66,8 +69,6 @@ class Dependencies:
             self._socket_network.sock_it()
         except ConnectionRefusedError as e:
             self._logger.info(f'Looks like wh00t services are unavailable:{e}')
-
-        self._session: Session = Session(logging, self._lexi.get_random_word_def)
         self._web_sock_manager = WebSocketManager(self._socket_network)
 
     def set_version(self, version) -> None:
@@ -81,11 +82,11 @@ class Dependencies:
         else:
             raise DatabaseError('Air_DB SQLite file does not exist')
 
+    def get_logging(self) -> Logger:
+        return self._logger
+
     def get_version(self) -> str:
         return self._version
-
-    def get_session(self) -> Session:
-        return self._session
 
     def get_ssl_state(self) -> bool:
         return self._ssl_state
@@ -93,8 +94,8 @@ class Dependencies:
     def get_air_session(self) -> AirSession:
         return self._air_session
 
-    def get_lexi(self) -> Lexicon:
-        return self._lexi
+    def get_lexicon_session(self) -> LexiconSession:
+        return self._lexicon_session
 
     def get_wh00t_socket(self) -> ClientNetwork:
         return self._socket_network
@@ -102,11 +103,13 @@ class Dependencies:
     def get_web_sock_manager(self) -> WebSocketManager:
         return self._web_sock_manager
 
-    def get_environment(self) -> dict:
-        return self._environment
-
-    def get_logging(self) -> Logger:
-        return self._logger
+    def get_server_settings(self) -> tuple:
+        return (
+            self._environment['HOST_SERVER_ADDRESS'],
+            self._environment['HTTP_SERVER_PORT'],
+            self._environment['SSL_KEYFILE'],
+            self._environment['SSL_CERT_FILE'],
+        )
 
 
 dependencies: Dependencies = Dependencies()
