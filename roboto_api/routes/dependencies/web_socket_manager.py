@@ -19,7 +19,8 @@ class WebSocketManager:
         return {
             'username': package['username'],
             'time': package['time'],
-            'message': package['message']
+            'message': package['message'],
+            'data': package['data'] if 'data' in package else None
         }
 
     def send_wh00t_message(self, username: str, message: str) -> None:
