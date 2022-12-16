@@ -29,6 +29,7 @@ class Dependencies:
         load_dotenv()
         self._environment: dict = {
             'HOST_SERVER_ADDRESS': str(os.getenv('HOST_SERVER_ADDRESS')),
+            'WH00T_SERVER_ADDRESS': str(os.getenv('WH00T_SERVER_ADDRESS')),
             'SOCKET_SERVER_PORT': int(os.getenv('SOCKET_SERVER_PORT')),
             'HTTP_SERVER_PORT': int(os.getenv('HTTP_SERVER_PORT')),
             'AIR_DB': str(os.getenv('AIR_DB')),
@@ -58,7 +59,7 @@ class Dependencies:
             )
         )
         self._socket_network: ClientNetwork = ClientNetwork(
-            self._environment['HOST_SERVER_ADDRESS'],
+            self._environment['WH00T_SERVER_ADDRESS'],
             self._environment['SOCKET_SERVER_PORT'],
             'roboto_api',
             'app',
