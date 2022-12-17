@@ -21,13 +21,19 @@ class LexiconSession:
         self._check_word_of_day_lifetime()
         return self._word_of_day
 
-    def set_new_word_of_day(self) -> None:
+    def set_new_word_of_day(self) -> bool:
         self._word_of_day = self._lexi.get_random_word_def()
-        self._word_of_day['word_of_day_issued_date']: date = date.today()
+        if 'word' in self._word_of_day:
+            self._word_of_day['word_of_day_issued_date']: date = date.today()
+            return True
+        return False
 
     def _check_word_of_day_lifetime(self) -> None:
         self._logger.info('Checking word of the day lifetime')
-        if self._is_word_stale(self._word_of_day['word_of_day_issued_date']):
+        if 'word_of_day_issued_date' in self._word_of_day:
+            if self._is_word_stale(self._word_of_day['word_of_day_issued_date']):
+                self.set_new_word_of_day()
+        else:
             self.set_new_word_of_day()
 
     @staticmethod
