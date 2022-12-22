@@ -61,7 +61,7 @@ class AirApi:
         return {
             'weather_location': self.air_session.get_location(),
             'weather_units': self.air_session.get_units(),
-            'current_weather': weather_data[0],
-            'previous_weather': weather_data[2],
+            'current_weather': weather_data[0] if len(weather_data) > 0  else {},
+            'previous_weather': weather_data[2] if len(weather_data) > 1 else {},
             'weather_forecast': self.air_session.get_db().get_weather_forecast()
         }
