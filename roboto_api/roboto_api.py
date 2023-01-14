@@ -6,13 +6,15 @@ from __init__ import __version__
 from server.server import Server
 from routes.dependencies.dependencies import dependencies
 from fastapi.middleware.cors import CORSMiddleware
-from routes import root_route, air_route, lexicon_route, wh00t_chat_route
+from routes import root_route, air_route, lexicon_route, arcadia_route, wh00t_chat_route
 
 app: FastAPI = FastAPI()
 app.include_router(root_route.router)
 app.include_router(wh00t_chat_route.router)
 app.include_router(air_route.router)
+app.include_router(root_route.router)
 app.include_router(lexicon_route.router)
+app.include_router(arcadia_route.router)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=['*'],

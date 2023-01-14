@@ -7,15 +7,18 @@ from sqlite3 import DatabaseError
 
 from air_core.library.air import Air
 from air_core.library.types.types import Unit
+from arcadia.library.arcadia_types import DataViewType
 from dotenv import load_dotenv
 from wh00t_core.library.client_network import ClientNetwork
 from air_core.library.air_db import AirDb
 from lexicon.library.lexicon import Lexicon
+from arcadia.library.arcadia import Arcadia
 from willow_core.library.file_handler import FileHandler
 
 from .air_session import AirSession
 from .web_socket_manager import WebSocketManager
 from .lexicon_session import LexiconSession
+from .arcadia_session import ArcadiaSession
 
 
 class Dependencies:
@@ -35,6 +38,7 @@ class Dependencies:
             'AIR_DB': str(os.getenv('AIR_DB')),
             'AIR_LOCATION': str(os.getenv('AIR_LOCATION')),
             'LEXI_DB': str(os.getenv('LEXI_DB')),
+            'ARCADIA_DB': str(os.getenv('ARCADIA_DB')),
             'MERRIAM_WEBSTER_API_KEY': str(os.getenv('MERRIAM_WEBSTER_API_KEY')),
             'OXFORD_APP_ID': str(os.getenv('OXFORD_APP_ID')),
             'OXFORD_APP_KEY': str(os.getenv('OXFORD_APP_KEY')),
@@ -43,6 +47,7 @@ class Dependencies:
         }
 
         self._ssl_state: bool = bool(self._environment['SSL_KEYFILE'] and self._environment['SSL_CERT_FILE'])
+
         self._air_session: AirSession = AirSession(
             self._environment['AIR_LOCATION'],
             Air(Unit.imperial).get_units(),
@@ -56,6 +61,14 @@ class Dependencies:
                 self._environment['OXFORD_APP_KEY'],
                 self._environment['LEXI_DB'],
                 logging
+            )
+        )
+        self._arcadia_session: ArcadiaSession = ArcadiaSession(
+            logging,
+            Arcadia(
+                logging,
+                self._environment['ARCADIA_DB'],
+                DataViewType.RAW
             )
         )
         self._socket_network: ClientNetwork = ClientNetwork(
@@ -97,6 +110,9 @@ class Dependencies:
 
     def get_lexicon_session(self) -> LexiconSession:
         return self._lexicon_session
+
+    def get_arcadia_session(self) -> ArcadiaSession:
+        return self._arcadia_session
 
     def get_wh00t_socket(self) -> ClientNetwork:
         return self._socket_network
