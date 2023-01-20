@@ -49,8 +49,8 @@ willow-core = {git = 'https://github.com/roboto84/willow_core.git', rev = '646a9
 [package.source]
 type = "git"
 url = 'https://github.com/roboto84/arcadia.git'
-reference = '190dd5a'
-resolved_reference = "190dd5a2c676df4370a14471d7f0c55f3326b6b0"
+reference = 'a78307b'
+resolved_reference = "a78307b7fcb453c1927b6366fc9252fc7b6a6047"
 
 [[package]]
 name = "asgiref"
@@ -495,7 +495,7 @@ resolved_reference = "646a99fa75cc5902ad8d9c8f1fe3f54c3ed13eb0"
 [metadata]
 lock-version = "1.1"
 python-versions = '^3.10'
-content-hash = "ed913e35644ee870f5656856a2c4f7f8e80360bdc51d1c1beac5208221078a56"
+content-hash = "4d845364cdae1b9b425df6088928a6ff9761fd3213f096b95da6747dd35ae064"
 
 [metadata.files]
 air-core = []

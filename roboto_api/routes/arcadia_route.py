@@ -32,6 +32,7 @@ class ArcadiaApi:
     @router.get('/arcadia/word_search/{search_word}', status_code=status.HTTP_200_OK)
     def arcadia_search(self, search_word: str):
         try:
+            similar_tags: list = self.arcadia_session.get_arc().get_similar_subjects(search_word)
             search_results: dict = self.arcadia_session.get_arc().get_summary(search_word)
         except Exception as e:
             raise HTTPException(
@@ -41,4 +42,7 @@ class ArcadiaApi:
                     'error': str(e)
                 })
         else:
-            return search_results
+            return {
+                'similar_tags': similar_tags,
+                'search_results': search_results
+            }
