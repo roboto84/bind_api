@@ -43,14 +43,17 @@ python-versions = '^3.10'
 develop = false
 
 [package.dependencies]
+beautifulsoup4 = "^4.11.1"
 python-dotenv = "^0.15.0"
+pyuseragents = "^1.0.5"
+requests = "^2.25.0"
 willow-core = {git = 'https://github.com/roboto84/willow_core.git', rev = '646a99f'}
 
 [package.source]
 type = "git"
 url = 'https://github.com/roboto84/arcadia.git'
-reference = 'a78307b'
-resolved_reference = "a78307b7fcb453c1927b6366fc9252fc7b6a6047"
+reference = 'a4fa0d7'
+resolved_reference = "a4fa0d7fec1b7d8de55edb8e6a69d951c6280372"
 
 [[package]]
 name = "asgiref"
@@ -78,6 +81,21 @@ docs = ["furo", "sphinx", "myst-parser", "zope.interface", "sphinx-notfound-page
 tests = ["attrs", "zope.interface"]
 tests-no-zope = ["hypothesis", "pympler", "pytest (>=4.3.0)", "pytest-xdist", "cloudpickle", "mypy (>=0.971,<0.990)", "pytest-mypy-plugins"]
 tests_no_zope = ["hypothesis", "pympler", "pytest (>=4.3.0)", "pytest-xdist", "cloudpickle", "mypy (>=0.971,<0.990)", "pytest-mypy-plugins"]
+
+[[package]]
+name = "beautifulsoup4"
+version = "4.11.1"
+description = "Screen-scraping library"
+category = "main"
+optional = false
+python-versions = ">=3.6.0"
+
+[package.dependencies]
+soupsieve = ">1.2"
+
+[package.extras]
+html5lib = ["html5lib"]
+lxml = ["lxml"]
 
 [[package]]
 name = "certifi"
@@ -299,6 +317,14 @@ python-versions = "*"
 cli = ["click (>=5.0)"]
 
 [[package]]
+name = "pyuseragents"
+version = "1.0.5"
+description = "A Python module which does one thing: giving you a random User-Agent Header"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "pyyaml"
 version = "6.0"
 description = "YAML parser and emitter for Python"
@@ -331,6 +357,14 @@ description = "Sniff out which async library your code is running under"
 category = "main"
 optional = false
 python-versions = ">=3.7"
+
+[[package]]
+name = "soupsieve"
+version = "2.3.2.post1"
+description = "A modern CSS selector implementation for Beautiful Soup."
+category = "main"
+optional = false
+python-versions = ">=3.6"
 
 [[package]]
 name = "sqlalchemy"
@@ -495,7 +529,7 @@ resolved_reference = "646a99fa75cc5902ad8d9c8f1fe3f54c3ed13eb0"
 [metadata]
 lock-version = "1.1"
 python-versions = '^3.10'
-content-hash = "4d845364cdae1b9b425df6088928a6ff9761fd3213f096b95da6747dd35ae064"
+content-hash = "a48b5a9351212c474b45bed1190d82cf417fc0e6654a4175b773c289325473e1"
 
 [metadata.files]
 air-core = []
@@ -503,6 +537,7 @@ anyio = []
 arcadia = []
 asgiref = []
 attrs = []
+beautifulsoup4 = []
 certifi = []
 charset-normalizer = []
 click = []
@@ -522,9 +557,11 @@ pydantic = []
 pyenchant = []
 pytest = []
 python-dotenv = []
+pyuseragents = []
 pyyaml = []
 requests = []
 sniffio = []
+soupsieve = []
 sqlalchemy = []
 starlette = []
 tomli = []
