@@ -52,8 +52,8 @@ willow-core = {git = 'https://github.com/roboto84/willow_core.git', rev = '646a9
 [package.source]
 type = "git"
 url = 'https://github.com/roboto84/arcadia.git'
-reference = '74d91ad'
-resolved_reference = "74d91adef75d5236816a9538a372ee0590eda5cc"
+reference = 'a3bdd89'
+resolved_reference = "a3bdd89ce01bb0e433fc5c259ef4b1fd4eba71bf"
 
 [[package]]
 name = "asgiref"
@@ -84,7 +84,7 @@ tests_no_zope = ["hypothesis", "pympler", "pytest (>=4.3.0)", "pytest-xdist", "c
 
 [[package]]
 name = "beautifulsoup4"
-version = "4.11.1"
+version = "4.11.2"
 description = "Screen-scraping library"
 category = "main"
 optional = false
@@ -529,7 +529,7 @@ resolved_reference = "646a99fa75cc5902ad8d9c8f1fe3f54c3ed13eb0"
 [metadata]
 lock-version = "1.1"
 python-versions = '^3.10'
-content-hash = "fee379f1e54c7c00fbd8662bb2d7e603ce7ee5d10eb7653531e2d1fa1c62356d"
+content-hash = "19826a6da6419f3c1b5bb5056c59fbe96442c91d3f104cd3668843f9d62a085c"
 
 [metadata.files]
 air-core = []

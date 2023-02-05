@@ -1,9 +1,11 @@
 
+from arcadia.library.db.db_types import UpdateDbItemResponse
 from fastapi import APIRouter, Depends, status, HTTPException
 from fastapi_utils.cbv import cbv
 from .dependencies.dependencies import dependencies
 from .dependencies.arcadia_session import ArcadiaSession
 from wh00t_core.library.client_network import ClientNetwork
+from .models.arcadia_models import ArcadiaUpdateItem
 
 router = APIRouter()
 
@@ -29,11 +31,11 @@ class ArcadiaApi:
                 'arcadia_subjects': subjects
             }
 
-    @router.get('/arcadia/word_search/{search_word}', status_code=status.HTTP_200_OK)
-    def arcadia_search(self, search_word: str):
+    @router.get('/arcadia/word_search/', status_code=status.HTTP_200_OK)
+    def arcadia_search(self, term: str):
         try:
-            similar_tags: list = self.arcadia_session.get_arc().get_similar_subjects(search_word)
-            search_results: dict = self.arcadia_session.get_arc().get_summary(search_word)
+            similar_tags: list = self.arcadia_session.get_arc().get_similar_subjects(term)
+            search_results: dict = self.arcadia_session.get_arc().get_summary(term)
         except Exception as e:
             raise HTTPException(
                 status_code=status.HTTP_417_EXPECTATION_FAILED,
@@ -46,3 +48,34 @@ class ArcadiaApi:
                 'similar_tags': similar_tags,
                 'search_results': search_results
             }
+
+    @router.put('/arcadia/update/', status_code=status.HTTP_200_OK)
+    def update_item(self, item: ArcadiaUpdateItem):
+        try:
+            new_data_key: str = item.new_data_key if item.new_data_key is not None else item.data_key
+            update_result: UpdateDbItemResponse = self.arcadia_session.get_arc().update_item(
+                item.data_key, new_data_key, item.title, item.tags, item.description, item.image_location
+            )
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_417_EXPECTATION_FAILED,
+                detail={
+                    'status': 'ERROR',
+                    'error': str(e)
+                })
+        else:
+            return update_result
+
+    @router.delete('/arcadia/remove/', status_code=status.HTTP_200_OK)
+    def delete_item(self, data_key: str):
+        try:
+            delete_result: UpdateDbItemResponse = self.arcadia_session.get_arc().delete_item(data_key)
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_417_EXPECTATION_FAILED,
+                detail={
+                    'status': 'ERROR',
+                    'error': str(e)
+                })
+        else:
+            return delete_result
