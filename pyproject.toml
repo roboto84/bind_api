@@ -5,12 +5,12 @@ description = 'REST API that provides data to front-end about various informatio
 authors = ['roboto84 <7658704+roboto84@users.noreply.github.com>']
 
 [tool.poetry.dependencies]
-python = '^3.10'
+python = '~3.10'
 fastapi = '^0.65.2'
 fastapi-utils = '^0.2.1'
 python-dotenv = '^0.15.0'
 lexicon = {git = 'https://github.com/roboto84/lexicon.git', tag = 'v0.1.1'}
-arcadia = {git = 'https://github.com/roboto84/arcadia.git', rev = '40cfbbb'}
+arcadia = {git = 'https://github.com/roboto84/arcadia.git', rev = 'e6cec8a'}
 air-core = {git = 'https://github.com/roboto84/air_core.git', rev = 'b4e50fb'}
 wh00t-core = {git = 'https://github.com/roboto84/wh00t_core.git', tag = 'v0.5.1'}
 willow-core = {git = 'https://github.com/roboto84/willow_core.git', rev = '646a99f'}
