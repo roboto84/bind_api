@@ -1,11 +1,11 @@
 
-from arcadia.library.db.db_types import UpdateDbItemResponse
+from arcadia.library.db.db_types import UpdateDbItemResponse, AddDbItemResponse, ArcadiaDataType
 from fastapi import APIRouter, Depends, status, HTTPException
 from fastapi_utils.cbv import cbv
 from .dependencies.dependencies import dependencies
 from .dependencies.arcadia_session import ArcadiaSession
 from wh00t_core.library.client_network import ClientNetwork
-from .models.arcadia_models import ArcadiaUpdateItem
+from .models.arcadia_models import ArcadiaUpdateItem, ArcadiaAddItem
 
 router = APIRouter()
 
@@ -48,6 +48,26 @@ class ArcadiaApi:
                 'similar_tags': similar_tags,
                 'search_results': search_results
             }
+
+    @router.post('/arcadia/create/', status_code=status.HTTP_200_OK)
+    def add_item(self, item: ArcadiaAddItem):
+        try:
+            add_result: AddDbItemResponse = self.arcadia_session.get_arc().add_item(
+                {
+                    'data_type': ArcadiaDataType.URL,
+                    'content': item.data_key,
+                    'tags': item.tags
+                }
+            )
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_417_EXPECTATION_FAILED,
+                detail={
+                    'status': 'ERROR',
+                    'error': str(e)
+                })
+        else:
+            return add_result
 
     @router.put('/arcadia/update/', status_code=status.HTTP_200_OK)
     def update_item(self, item: ArcadiaUpdateItem):

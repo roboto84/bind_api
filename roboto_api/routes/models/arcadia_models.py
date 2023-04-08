@@ -10,3 +10,7 @@ class ArcadiaUpdateItem(BaseModel):
     tags: list[str]
     description: str
     image_location: str
+
+class ArcadiaAddItem(BaseModel):
+    data_key: str
+    tags: list[str]
