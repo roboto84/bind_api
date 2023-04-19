@@ -424,7 +424,7 @@ files = [
 
 [[package]]
 name = "lexicon"
-version = "0.1.1"
+version = "0.2.0"
 description = 'Command line and lib toolset for word definitions, spell check, and spelling suggestions'
 category = "main"
 optional = false
@@ -441,8 +441,8 @@ willow-core = {git = 'https://github.com/roboto84/willow_core.git', rev = '646a9
 [package.source]
 type = "git"
 url = 'https://github.com/roboto84/lexicon.git'
-reference = 'v0.1.1'
-resolved_reference = "0b3bb3f9ea55f7eea191d9e489a5d517a08dfccc"
+reference = 'v0.2.0'
+resolved_reference = "28e1b1292e81244728d78a1165c0fbf2cbb5cb79"
 
 [[package]]
 name = "packaging"
@@ -1021,4 +1021,4 @@ resolved_reference = "646a99fa75cc5902ad8d9c8f1fe3f54c3ed13eb0"
 [metadata]
 lock-version = "2.0"
 python-versions = '~3.10'
-content-hash = "7d5e64e6e83b16a55d5aa6fc44da11868a3ae7227defbf1ef1b7920936fdb39a"
+content-hash = "3dd1b4c0b82c0b2411fc66e11965db478beba604f1e20aaa23dcabad57822da7"
