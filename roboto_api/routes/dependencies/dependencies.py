@@ -40,8 +40,6 @@ class Dependencies:
             'LEXI_DB': str(os.getenv('LEXI_DB')),
             'ARCADIA_DB': str(os.getenv('ARCADIA_DB')),
             'MERRIAM_WEBSTER_API_KEY': str(os.getenv('MERRIAM_WEBSTER_API_KEY')),
-            'OXFORD_APP_ID': str(os.getenv('OXFORD_APP_ID')),
-            'OXFORD_APP_KEY': str(os.getenv('OXFORD_APP_KEY')),
             'SSL_KEYFILE': str(os.getenv('SSL_KEYFILE', '')),
             'SSL_CERT_FILE': str(os.getenv('SSL_CERT_FILE', ''))
         }
@@ -57,8 +55,6 @@ class Dependencies:
             logging,
             Lexicon(
                 self._environment['MERRIAM_WEBSTER_API_KEY'],
-                self._environment['OXFORD_APP_ID'],
-                self._environment['OXFORD_APP_KEY'],
                 self._environment['LEXI_DB'],
                 logging
             )
