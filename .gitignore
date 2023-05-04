@@ -12,6 +12,7 @@ __pycache__/
 *.log.*
 # Vim
 *.swp
+*.iml
 
 # Distribution / packaging
 .Python

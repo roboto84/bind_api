@@ -1,4 +1,4 @@
-from roboto_api import __version__
+from bind_api import __version__
 
 
 def test_version():

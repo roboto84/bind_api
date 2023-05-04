@@ -25,7 +25,7 @@ class Dependencies:
     _version: str = 'n/a'
 
     def __init__(self):
-        logging.config.fileConfig(fname=os.path.abspath('roboto_api/bin/logging.conf'), disable_existing_loggers=False)
+        logging.config.fileConfig(fname=os.path.abspath('bind_api/bin/logging.conf'), disable_existing_loggers=False)
         self._logger: Logger = logging.getLogger(__name__)
         self._logger.setLevel(logging.INFO)
 
