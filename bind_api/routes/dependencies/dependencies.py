@@ -44,7 +44,7 @@ class Dependencies:
             'SSL_CERT_FILE': str(os.getenv('SSL_CERT_FILE', ''))
         }
 
-        self._ssl_state: bool = bool(self._environment['SSL_KEYFILE'] and self._environment['SSL_CERT_FILE'])
+        self._ssl_state: bool = bool(os.path.getsize(self._environment['SSL_KEYFILE']) and os.path.getsize(self._environment['SSL_CERT_FILE']))
 
         self._air_session: AirSession = AirSession(
             self._environment['AIR_LOCATION'],
