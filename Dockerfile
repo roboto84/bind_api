@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 FROM python:3.10-slim
-WORKDIR /usr/src/roboto_api
+WORKDIR /usr/src/bind_api
 
 # Update apt-get
 RUN apt-get update -y
@@ -9,7 +9,7 @@ RUN apt-get update -y
 RUN apt-get install -y libenchant-2-2
 
 # Install poetry
-ENV POETRY_VERSION=1.2.0
+ENV POETRY_VERSION=1.4.2
 RUN apt-get install -y curl && \
     curl -sSL https://install.python-poetry.org | POETRY_VERSION=${POETRY_VERSION} python3 -
 ENV PATH="/root/.local/bin:$PATH"
@@ -29,4 +29,4 @@ COPY . .
 
 # Run application
 EXPOSE 8000
-CMD ["poetry", "run", "python", "roboto_api/roboto_api.py"]
+CMD ["poetry", "run", "python", "bind_api/rest_api.py"]
