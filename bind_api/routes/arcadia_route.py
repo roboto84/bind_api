@@ -4,7 +4,6 @@ from fastapi import APIRouter, Depends, status, HTTPException
 from fastapi_utils.cbv import cbv
 from .dependencies.dependencies import dependencies
 from .dependencies.arcadia_session import ArcadiaSession
-from wh00t_core.library.client_network import ClientNetwork
 from .models.arcadia_models import ArcadiaUpdateItem, ArcadiaAddItem
 
 router = APIRouter()
@@ -12,13 +11,13 @@ router = APIRouter()
 
 @cbv(router)
 class ArcadiaApi:
-    wh00t_socket: ClientNetwork = Depends(dependencies.get_wh00t_socket)
     arcadia_session: ArcadiaSession = Depends(dependencies.get_arcadia_session)
 
-    @router.get('/arcadia/subjects', status_code=status.HTTP_200_OK)
-    def arcadia_subjects(self):
+    @router.get('/arcadia/summary', status_code=status.HTTP_200_OK)
+    def arcadia_summary(self):
         try:
-            subjects: list[str] = self.arcadia_session.get_arc().get_subjects_dictionary()
+            subjects: list[str] = self.arcadia_session.get_arc().get_subjects()
+            random_subjects: dict = self.arcadia_session.get_random_tags()['tags']
         except Exception as e:
             raise HTTPException(
                 status_code=status.HTTP_417_EXPECTATION_FAILED,
@@ -28,7 +27,43 @@ class ArcadiaApi:
                 })
         else:
             return {
-                'arcadia_subjects': subjects
+                'number_of_subjects': len(subjects),
+                'number_of_URL_records': 3000,
+                'random_subject_sample': random_subjects,
+                'subjects': subjects,
+                'random_record_sample': 2
+            }
+
+    @router.get('/arcadia/random_subjects', status_code=status.HTTP_200_OK)
+    def arcadia_random_subjects(self):
+        try:
+            random_subjects: dict = self.arcadia_session.get_random_tags()
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_417_EXPECTATION_FAILED,
+                detail={
+                    'status': 'ERROR',
+                    'error': str(e)
+                })
+        else:
+            return {
+                'random_subject_sample': random_subjects
+            }
+
+    @router.get('/arcadia/subjects_index', status_code=status.HTTP_200_OK)
+    def arcadia_subjects(self):
+        try:
+            subjects: dict[str:list[str]] = self.arcadia_session.get_arc().get_subjects_dictionary()
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_417_EXPECTATION_FAILED,
+                detail={
+                    'status': 'ERROR',
+                    'error': str(e)
+                })
+        else:
+            return {
+                'subject_index': subjects
             }
 
     @router.get('/arcadia/word_search/', status_code=status.HTTP_200_OK)

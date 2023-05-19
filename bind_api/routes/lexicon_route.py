@@ -13,6 +13,23 @@ class LexiconApi:
     wh00t_socket: ClientNetwork = Depends(dependencies.get_wh00t_socket)
     lexicon_session: LexiconSession = Depends(dependencies.get_lexicon_session)
 
+    @router.get('/lexicon/summary', status_code=status.HTTP_200_OK)
+    def lexicon_summary(self):
+        try:
+            word_of_day: dict = self.lexicon_session.get_word_of_day()
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_417_EXPECTATION_FAILED,
+                detail={
+                    'status': 'ERROR',
+                    'error': str(e)
+                })
+        else:
+            return {
+                'number_of_words': 5,
+                'word_of_day': word_of_day
+            }
+
     @router.get('/lexicon/wh00t_messages', status_code=status.HTTP_200_OK)
     def lexicon_wh00t_messages(self):
         return {

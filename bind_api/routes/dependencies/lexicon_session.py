@@ -3,6 +3,7 @@ from logging import Logger
 from typing import Any
 from datetime import date
 from lexicon.library.lexicon import Lexicon
+from .utils import is_data_stale
 
 
 class LexiconSession:
@@ -31,18 +32,7 @@ class LexiconSession:
     def _check_word_of_day_lifetime(self) -> None:
         self._logger.info('Checking word of the day lifetime')
         if 'word_of_day_issued_date' in self._word_of_day:
-            if self._is_word_stale(self._word_of_day['word_of_day_issued_date']):
+            if is_data_stale(self._word_of_day['word_of_day_issued_date']):
                 self.set_new_word_of_day()
         else:
             self.set_new_word_of_day()
-
-    @staticmethod
-    def _is_word_stale(stored_date: date) -> bool:
-        if date.today().year > stored_date.year:
-            return True
-        elif date.today().month > stored_date.month:
-            return True
-        elif date.today().day > stored_date.day:
-            return True
-        else:
-            return False
