@@ -17,7 +17,9 @@ class ArcadiaApi:
     def arcadia_summary(self):
         try:
             subjects: list[str] = self.arcadia_session.get_arc().get_subjects()
-            random_subjects: dict = self.arcadia_session.get_random_tags()['tags']
+            random_subjects: dict = self.arcadia_session.get_random_daily_tags()['tags']
+            random_sample: dict = self.arcadia_session.get_daily_random_item()
+            item_count: int = self.arcadia_session.get_arc().get_item_count()
         except Exception as e:
             raise HTTPException(
                 status_code=status.HTTP_417_EXPECTATION_FAILED,
@@ -28,16 +30,16 @@ class ArcadiaApi:
         else:
             return {
                 'number_of_subjects': len(subjects),
-                'number_of_URL_records': 3000,
+                'number_of_URL_records': item_count,
                 'random_subject_sample': random_subjects,
                 'subjects': subjects,
-                'random_record_sample': 2
+                'random_item_sample': random_sample
             }
 
     @router.get('/arcadia/random_subjects', status_code=status.HTTP_200_OK)
     def arcadia_random_subjects(self):
         try:
-            random_subjects: dict = self.arcadia_session.get_random_tags()
+            random_subjects: dict = self.arcadia_session.get_random_daily_tags()
         except Exception as e:
             raise HTTPException(
                 status_code=status.HTTP_417_EXPECTATION_FAILED,
