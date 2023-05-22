@@ -1,5 +1,6 @@
 
-from arcadia.library.db.db_types import UpdateDbItemResponse, AddDbItemResponse, ArcadiaDataType
+from arcadia.library.db.db_types import ArcadiaDataType
+from willow_core.library.db_types import UpdateDbItemResponse, AddDbItemResponse, DeleteDbItemResponse
 from fastapi import APIRouter, Depends, status, HTTPException
 from fastapi_utils.cbv import cbv
 from .dependencies.dependencies import dependencies
@@ -113,6 +114,9 @@ class ArcadiaApi:
             update_result: UpdateDbItemResponse = self.arcadia_session.get_arc().update_item(
                 item.data_key, new_data_key, item.title, item.tags, item.description, item.image_location
             )
+            if update_result['updated_item']:
+                self.arcadia_session.check_random_daily_item_updated(item.data_key, item.new_data_key)
+
         except Exception as e:
             raise HTTPException(
                 status_code=status.HTTP_417_EXPECTATION_FAILED,
@@ -126,7 +130,10 @@ class ArcadiaApi:
     @router.delete('/arcadia/remove/', status_code=status.HTTP_200_OK)
     def delete_item(self, data_key: str):
         try:
-            delete_result: UpdateDbItemResponse = self.arcadia_session.get_arc().delete_item(data_key)
+            delete_result: DeleteDbItemResponse = self.arcadia_session.get_arc().delete_item(data_key)
+            if delete_result['deleted_item']:
+                self.arcadia_session.check_random_daily_item_removed(data_key)
+
         except Exception as e:
             raise HTTPException(
                 status_code=status.HTTP_417_EXPECTATION_FAILED,

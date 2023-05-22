@@ -1,10 +1,10 @@
-
+import random
 from logging import Logger
 from typing import Any
 from arcadia.library.arcadia import Arcadia
 from datetime import date
+from arcadia.library.db.db_types import ArcadiaDbRecord
 from .utils import is_data_stale
-import random
 
 
 class ArcadiaSession:
@@ -36,7 +36,7 @@ class ArcadiaSession:
         return False
 
     def set_new_daily_random_item(self) -> bool:
-        item: dict = self._arc.get_random_url_item()
+        item: ArcadiaDbRecord = self._arc.get_random_url_item()
         if item:
             self._daily_random_item = item
             self._daily_random_item['random_item_issued_date']: date = date.today()
@@ -58,3 +58,19 @@ class ArcadiaSession:
                 self.set_new_daily_random_item()
         else:
             self.set_new_daily_random_item()
+
+    def check_random_daily_item_removed(self, item_key: str):
+        self._logger.info('Checking random daily item did not get removed')
+        if self._daily_random_item['data'] == item_key:
+            self._logger.info('Random daily item was removed, setting a new one')
+            self.set_new_daily_random_item()
+
+    def check_random_daily_item_updated(self, item_key: str, new_data_key: str):
+        self._logger.info('Checking random daily item did not get updated')
+        if self._daily_random_item['data'] == item_key:
+            self._logger.info('Random daily item was updated, refreshing item data')
+            current_lifetime_start = self._daily_random_item['random_item_issued_date']
+            item:  ArcadiaDbRecord = self._arc.get_item(new_data_key)
+            if item:
+                self._daily_random_item = item
+                self._daily_random_item['random_item_issued_date']: date = current_lifetime_start

@@ -36,3 +36,7 @@ class LexiconSession:
                 self.set_new_word_of_day()
         else:
             self.set_new_word_of_day()
+
+    def check_word_of_day_removed(self, word: str):
+        if self._word_of_day['word'] == word:
+            self.set_new_word_of_day()
