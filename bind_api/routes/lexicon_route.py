@@ -4,6 +4,7 @@ from fastapi_utils.cbv import cbv
 from .dependencies.dependencies import dependencies
 from .dependencies.lexicon_session import LexiconSession
 from wh00t_core.library.client_network import ClientNetwork
+from lexicon.library.types.Search import SearchType
 
 router = APIRouter()
 
@@ -97,10 +98,9 @@ class LexiconApi:
                 'lexicon_words': lexicon_words
             }
 
-    @router.get('/lexicon/word_search/{search_word}', status_code=status.HTTP_200_OK)
-    def lexicon_word_search(self, search_word: str):
+    def lexicon_word_search(self, search_word, search_type: SearchType):
         try:
-            searched_word_definition: dict = self.lexicon_session.get_lexicon().get_definition(search_word)
+            searched_word_definition: dict = self.lexicon_session.get_lexicon().get_definition(search_word, search_type)
         except Exception as e:
             raise HTTPException(
                 status_code=status.HTTP_417_EXPECTATION_FAILED,
@@ -110,6 +110,14 @@ class LexiconApi:
                 })
         else:
             return searched_word_definition
+
+    @router.get('/lexicon/global_word_search/{search_word}', status_code=status.HTTP_200_OK)
+    def lexicon_global_word_search(self, search_word: str):
+        return self.lexicon_word_search(search_word, SearchType.GLOBAL)
+
+    @router.get('/lexicon/cached_word_search/{search_word}', status_code=status.HTTP_200_OK)
+    def lexicon_cached_word_search(self, search_word: str):
+        return self.lexicon_word_search(search_word, SearchType.CACHED)
 
     @router.delete('/lexicon/remove/', status_code=status.HTTP_200_OK)
     def delete_item(self, word: str):
