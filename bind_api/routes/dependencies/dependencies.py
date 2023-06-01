@@ -70,7 +70,7 @@ class Dependencies:
         self._socket_network: ClientNetwork = ClientNetwork(
             self._environment['WH00T_SERVER_ADDRESS'],
             self._environment['SOCKET_SERVER_PORT'],
-            'roboto_api',
+            'bind_api',
             'app',
             logging
         )

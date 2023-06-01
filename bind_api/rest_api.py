@@ -1,4 +1,3 @@
-
 import uvicorn
 from logging import Logger
 from fastapi import FastAPI
@@ -8,7 +7,31 @@ from routes.dependencies.dependencies import dependencies
 from fastapi.middleware.cors import CORSMiddleware
 from routes import root_route, air_route, lexicon_route, arcadia_route, wh00t_chat_route
 
-app: FastAPI = FastAPI()
+description = """
+## About
+This project is a REST API for [Bind](https://www.roboto84.dev/pages/projects/). 
+The repo for this API is hosted @ [bind_api](https://github.com/roboto84/bind_api).
+"""
+
+app: FastAPI = FastAPI(
+    title="Bind API",
+    description=description,
+    version=__version__,
+    contact={
+        "name": "roboto84",
+        "url": "https://www.roboto84.dev",
+    },
+    license_info={
+        "name": "GNU General Public License v3.0",
+        "url": "https://github.com/roboto84/bind_api/blob/develop/LICENSE",
+    },
+    swagger_ui_parameters={
+        "syntaxHighlight.theme": "obsidian",
+        "requestSnippetsEnabled": True,
+        "tryItOutEnabled": True,
+    }
+)
+
 app.include_router(root_route.router)
 app.include_router(wh00t_chat_route.router)
 app.include_router(air_route.router)
