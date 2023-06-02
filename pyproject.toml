@@ -8,9 +8,9 @@ authors = ['roboto84 <7658704+roboto84@users.noreply.github.com>']
 python = '~3.10'
 fastapi = '^0.95.1'
 fastapi-utils = '^0.2.1'
-python-dotenv = '^0.15.0'
-lexicon = {git = 'https://github.com/roboto84/lexicon.git', tag = 'v0.5.0'}
-arcadia = {git = 'https://github.com/roboto84/arcadia.git', tag = 'v0.2.2'}
+python-dotenv = '^1.0.0'
+lexicon = {git = 'https://github.com/roboto84/lexicon.git', tag = 'v0.5.1'}
+arcadia = {git = 'https://github.com/roboto84/arcadia.git', tag = 'v0.2.3'}
 air-core = {git = 'https://github.com/roboto84/air_core.git', tag = 'v0.1.0'}
 wh00t-core = {git = 'https://github.com/roboto84/wh00t_core.git', tag = 'v0.5.2'}
 willow-core = {git = 'https://github.com/roboto84/willow_core.git', tag = 'v0.1.1'}

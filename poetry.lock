@@ -11,12 +11,12 @@ files = []
 develop = false
 
 [package.dependencies]
-willow-core = {git = 'https://github.com/roboto84/willow_core.git', tag = 'v0.1.1'}
+willow-core = {git = "https://github.com/roboto84/willow_core.git", tag = "v0.1.1"}
 
 [package.source]
 type = "git"
-url = 'https://github.com/roboto84/air_core.git'
-reference = 'v0.1.0'
+url = "https://github.com/roboto84/air_core.git"
+reference = "v0.1.0"
 resolved_reference = "3b9a6b8352279996e74f8a2f2d6d91292ad9298a"
 
 [[package]]
@@ -42,7 +42,7 @@ trio = ["trio (>=0.16,<0.22)"]
 
 [[package]]
 name = "arcadia"
-version = "0.2.2"
+version = "0.2.3"
 description = 'Command line and lib toolset for data organization framework'
 category = "main"
 optional = false
@@ -51,8 +51,8 @@ files = []
 develop = false
 
 [package.dependencies]
-beautifulsoup4 = "^4.11.1"
-python-dotenv = "^0.15.0"
+beautifulsoup4 = "^4.12.2"
+python-dotenv = "^1.0.0"
 pyuseragents = "^1.0.5"
 requests = "^2.30.0"
 willow-core = {git = 'https://github.com/roboto84/willow_core.git', tag = 'v0.1.1'}
@@ -60,8 +60,8 @@ willow-core = {git = 'https://github.com/roboto84/willow_core.git', tag = 'v0.1.
 [package.source]
 type = "git"
 url = 'https://github.com/roboto84/arcadia.git'
-reference = 'v0.2.2'
-resolved_reference = "51468d48c589cb49f6e37d97204902080870f5a7"
+reference = 'v0.2.3'
+resolved_reference = "574d9cbfebe9919453b009dab98bbd38bd5c7632"
 
 [[package]]
 name = "beautifulsoup4"
@@ -426,7 +426,7 @@ files = [
 
 [[package]]
 name = "lexicon"
-version = "0.4.0"
+version = "0.5.1"
 description = 'Command line and lib toolset for word definitions, spell check, and spelling suggestions'
 category = "main"
 optional = false
@@ -436,15 +436,15 @@ develop = false
 
 [package.dependencies]
 pyenchant = "^3.2.0"
-python-dotenv = "^0.15.0"
-requests = "^2.28.1"
+python-dotenv = "^1.0.0"
+requests = "^2.30.0"
 willow-core = {git = 'https://github.com/roboto84/willow_core.git', tag = 'v0.1.1'}
 
 [package.source]
 type = "git"
 url = 'https://github.com/roboto84/lexicon.git'
-reference = 'v0.4.0'
-resolved_reference = "69b9491daffa8e13bbf90809be76157f476092fb"
+reference = 'v0.5.1'
+resolved_reference = "d5b22df3149f7334a2dd39f1ded569031ebfbee6"
 
 [[package]]
 name = "packaging"
@@ -566,14 +566,14 @@ testing = ["argcomplete", "attrs (>=19.2.0)", "hypothesis (>=3.56)", "mock", "no
 
 [[package]]
 name = "python-dotenv"
-version = "0.15.0"
-description = "Add .env support to your django/flask apps in development and deployments"
+version = "1.0.0"
+description = "Read key-value pairs from a .env file and set them as environment variables"
 category = "main"
 optional = false
-python-versions = "*"
+python-versions = ">=3.8"
 files = [
-    {file = "python-dotenv-0.15.0.tar.gz", hash = "sha256:587825ed60b1711daea4832cf37524dfd404325b7db5e25ebe88c495c9f807a0"},
-    {file = "python_dotenv-0.15.0-py2.py3-none-any.whl", hash = "sha256:0c8d1b80d1a1e91717ea7d526178e3882732420b03f08afea0406db6402e220e"},
+    {file = "python-dotenv-1.0.0.tar.gz", hash = "sha256:a8df96034aae6d2d50a4ebe8216326c61c3eb64836776504fcca410e5937a3ba"},
+    {file = "python_dotenv-1.0.0-py3-none-any.whl", hash = "sha256:f5971a9226b701070a4bf2c38c89e5a3f0d64de8debda981d1db98583009122a"},
 ]
 
 [package.extras]
@@ -1011,20 +1011,20 @@ files = [
 [[package]]
 name = "wh00t-core"
 version = "0.5.2"
-description = 'Core libraries shared amongst the wh00t connected projects'
+description = "Core libraries shared amongst the wh00t connected projects"
 category = "main"
 optional = false
-python-versions = '^3.10'
+python-versions = "^3.10"
 files = []
 develop = false
 
 [package.dependencies]
-willow-core = {git = 'https://github.com/roboto84/willow_core.git', tag = 'v0.1.1'}
+willow-core = {git = "https://github.com/roboto84/willow_core.git", tag = "v0.1.1"}
 
 [package.source]
 type = "git"
-url = 'https://github.com/roboto84/wh00t_core.git'
-reference = 'v0.5.2'
+url = "https://github.com/roboto84/wh00t_core.git"
+reference = "v0.5.2"
 resolved_reference = "56e757e8f2ecf4f173a5f69323d9925934d3c362"
 
 [[package]]
@@ -1039,11 +1039,11 @@ develop = false
 
 [package.source]
 type = "git"
-url = 'https://github.com/roboto84/willow_core.git'
-reference = 'v0.1.1'
+url = "https://github.com/roboto84/willow_core.git"
+reference = "v0.1.1"
 resolved_reference = "5f16f674e48bebf98d94afa1bf578693b6def7f5"
 
 [metadata]
 lock-version = "2.0"
 python-versions = '~3.10'
-content-hash = "e1a28121688874140baee3e27f0ba8b71c672b0bb1b806dc28db67e4548363e1"
+content-hash = "5f6c075bb44d96d4719d20de0bdb40cc343de0607731936e50e07f9a85b9cb7e"
