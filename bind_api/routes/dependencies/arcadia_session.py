@@ -28,60 +28,79 @@ class ArcadiaSession:
         return self._daily_random_item
 
     def set_new_daily_random_tags(self) -> bool:
-        self._logger.info('Get subject tags')
-        subjects: list[str] = self._arc.get_subjects()
-        self._daily_random_tags['random_tags_issued_date']: date = date.today()
+        try:
+            self._logger.info('Get subject tags')
+            subjects: list[str] = self._arc.get_subjects()
+            self._daily_random_tags['random_tags_issued_date']: date = date.today()
 
-        if subjects:
-            self._logger.info('Structure new daily random tags')
-            self._daily_random_tags['tags'] = sorted(random.sample(subjects, 35))
-            self._logger.info(self._daily_random_tags)
-            return True
-        self._logger.info('No tags, so setting tags to empty')
-        self._daily_random_tags['tags'] = []
-        return False
+            if subjects:
+                random_tags_length: int = 35 if len(subjects) > 35 else len(subjects)
+                self._logger.info('Structure new daily random tags')
+                self._daily_random_tags['tags'] = sorted(random.sample(subjects, random_tags_length))
+                self._logger.info(self._daily_random_tags)
+                return True
+            self._logger.info('No tags, so setting tags to empty')
+            self._daily_random_tags['tags'] = []
+            return False
+        except Exception as e:
+            self._logger.error(f'Exception was thrown: {str(e)}')
 
     def set_new_daily_random_item(self) -> bool:
-        self._logger.info('Getting random item')
-        item: ArcadiaDbRecord = self._arc.get_random_url_item()
+        try:
+            self._logger.info('Getting random item')
+            item: ArcadiaDbRecord = self._arc.get_random_url_item()
 
-        if item:
-            self._logger.info('Random item found, Structuring item')
-            self._daily_random_item = item
-            self._daily_random_item['random_item_issued_date']: date = date.today()
-            return True
-        self._logger.info('Random item not found, Setting empty item')
-        self._logger.info(self._daily_random_item)
-        return False
+            if item:
+                self._logger.info('Random item found, Structuring item')
+                self._daily_random_item = item
+                self._daily_random_item['random_item_issued_date']: date = date.today()
+                return True
+            self._logger.info('Random item not found, Setting empty item')
+            self._daily_random_item = {}
+            return False
+        except Exception as e:
+            self._logger.error(f'Exception was thrown: {str(e)}')
 
     def _check_random_daily_tags_lifetime(self) -> None:
-        self._logger.info('Checking random daily tags lifetime')
-        if 'random_tags_issued_date' in self._daily_random_tags:
-            if is_data_stale(self._daily_random_tags['random_tags_issued_date']):
+        try:
+            self._logger.info('Checking random daily tags lifetime')
+            if 'random_tags_issued_date' in self._daily_random_tags:
+                if is_data_stale(self._daily_random_tags['random_tags_issued_date']):
+                    self.set_new_daily_random_tags()
+            else:
                 self.set_new_daily_random_tags()
-        else:
-            self.set_new_daily_random_tags()
+        except Exception as e:
+            self._logger.error(f'Exception was thrown: {str(e)}')
 
     def _check_random_daily_item_lifetime(self) -> None:
-        self._logger.info('Checking random daily item lifetime')
-        if 'random_item_issued_date' in self._daily_random_item:
-            if is_data_stale(self._daily_random_item['random_item_issued_date']):
+        try:
+            self._logger.info('Checking random daily item lifetime')
+            if 'random_item_issued_date' in self._daily_random_item:
+                if is_data_stale(self._daily_random_item['random_item_issued_date']):
+                    self.set_new_daily_random_item()
+            else:
                 self.set_new_daily_random_item()
-        else:
-            self.set_new_daily_random_item()
+        except Exception as e:
+            self._logger.error(f'Exception was thrown: {str(e)}')
 
     def check_random_daily_item_removed(self, item_key: str):
-        self._logger.info('Checking random daily item did not get removed')
-        if 'data' in self._daily_random_item and self._daily_random_item['data'] == item_key:
-            self._logger.info('Random daily item was removed, setting a new one')
-            self.set_new_daily_random_item()
+        try:
+            self._logger.info('Checking random daily item did not get removed')
+            if 'data' in self._daily_random_item and self._daily_random_item['data'] == item_key:
+                self._logger.info('Random daily item was removed, setting a new one')
+                self.set_new_daily_random_item()
+        except Exception as e:
+            self._logger.error(f'Exception was thrown: {str(e)}')
 
     def check_random_daily_item_updated(self, item_key: str, new_data_key: str):
-        self._logger.info('Checking random daily item did not get updated')
-        if 'data' in self._daily_random_item and self._daily_random_item['data'] == item_key:
-            self._logger.info('Random daily item was updated, refreshing item data')
-            current_lifetime_start = self._daily_random_item['random_item_issued_date']
-            item:  ArcadiaDbRecord = self._arc.get_item(new_data_key)
-            if item:
-                self._daily_random_item = item
-                self._daily_random_item['random_item_issued_date']: date = current_lifetime_start
+        try:
+            self._logger.info('Checking random daily item did not get updated')
+            if 'data' in self._daily_random_item and self._daily_random_item['data'] == item_key:
+                self._logger.info('Random daily item was updated, refreshing item data')
+                current_lifetime_start = self._daily_random_item['random_item_issued_date']
+                item:  ArcadiaDbRecord = self._arc.get_item(new_data_key)
+                if item:
+                    self._daily_random_item = item
+                    self._daily_random_item['random_item_issued_date']: date = current_lifetime_start
+        except Exception as e:
+            self._logger.error(f'Exception was thrown: {str(e)}')
