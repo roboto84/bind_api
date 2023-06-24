@@ -42,7 +42,7 @@ trio = ["trio (>=0.16,<0.22)"]
 
 [[package]]
 name = "arcadia"
-version = "0.2.4"
+version = "0.2.5"
 description = 'Command line and lib toolset for data organization framework'
 category = "main"
 optional = false
@@ -60,8 +60,8 @@ willow-core = {git = 'https://github.com/roboto84/willow_core.git', tag = 'v0.1.
 [package.source]
 type = "git"
 url = 'https://github.com/roboto84/arcadia.git'
-reference = 'v0.2.4'
-resolved_reference = "aaddcf45d3972c614e169f8337be468dc49234e0"
+reference = 'v0.2.5'
+resolved_reference = "8c8fb4608bc5419b67529ce014bf5341e75c82b0"
 
 [[package]]
 name = "beautifulsoup4"
@@ -427,10 +427,10 @@ files = [
 [[package]]
 name = "lexicon"
 version = "0.5.2"
-description = 'Command line and lib toolset for word definitions, spell check, and spelling suggestions'
+description = "Command line and lib toolset for word definitions, spell check, and spelling suggestions"
 category = "main"
 optional = false
-python-versions = '^3.10'
+python-versions = "^3.10"
 files = []
 develop = false
 
@@ -438,12 +438,12 @@ develop = false
 pyenchant = "^3.2.0"
 python-dotenv = "^1.0.0"
 requests = "^2.30.0"
-willow-core = {git = 'https://github.com/roboto84/willow_core.git', tag = 'v0.1.1'}
+willow-core = {git = "https://github.com/roboto84/willow_core.git", tag = "v0.1.1"}
 
 [package.source]
 type = "git"
-url = 'https://github.com/roboto84/lexicon.git'
-reference = 'v0.5.2'
+url = "https://github.com/roboto84/lexicon.git"
+reference = "v0.5.2"
 resolved_reference = "ec2da7a4944b061663690b18280f8a2a2e039ed9"
 
 [[package]]
@@ -1046,4 +1046,4 @@ resolved_reference = "5f16f674e48bebf98d94afa1bf578693b6def7f5"
 [metadata]
 lock-version = "2.0"
 python-versions = '~3.10'
-content-hash = "7d23f590473421f6610970ea1cb89756e4989165b88304d146da2193329b0997"
+content-hash = "1af233739fd82fc99b6d874d87b1b33426068b05de33aa51c6273181ce4abdfa"
