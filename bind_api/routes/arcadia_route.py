@@ -53,8 +53,25 @@ class ArcadiaApi:
                 'random_subject_sample': random_subjects
             }
 
-    @router.get('/arcadia/subjects_index', status_code=status.HTTP_200_OK)
+    @router.get('/arcadia/subjects', status_code=status.HTTP_200_OK)
     def arcadia_subjects(self):
+        try:
+            subjects: list[str] = self.arcadia_session.get_arc().get_subjects()
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_417_EXPECTATION_FAILED,
+                detail={
+                    'status': 'ERROR',
+                    'error': str(e)
+                })
+        else:
+            return {
+                'number_of_subjects': len(subjects),
+                'subjects': subjects,
+            }
+
+    @router.get('/arcadia/subjects_index', status_code=status.HTTP_200_OK)
+    def arcadia_subjects_index(self):
         try:
             subjects: dict[str:list[str]] = self.arcadia_session.get_arc().get_subjects_dictionary()
         except Exception as e:
