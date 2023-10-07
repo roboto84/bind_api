@@ -17,7 +17,7 @@ class ArcadiaApi:
     @router.get('/arcadia/summary', status_code=status.HTTP_200_OK)
     def arcadia_summary(self):
         try:
-            subjects: list[str] = self.arcadia_session.get_arc().get_subjects()
+            subject_count: int = self.arcadia_session.get_arc().get_subject_count()
             random_subjects: dict = self.arcadia_session.get_random_daily_tags()['tags']
             random_sample: dict = self.arcadia_session.get_daily_random_item()
             item_count: int = self.arcadia_session.get_arc().get_item_count()
@@ -30,10 +30,9 @@ class ArcadiaApi:
                 })
         else:
             return {
-                'number_of_subjects': len(subjects),
+                'number_of_subjects': subject_count,
                 'number_of_URL_records': item_count,
                 'random_subject_sample': random_subjects,
-                'subjects': subjects,
                 'random_item_sample': random_sample
             }
 
@@ -68,6 +67,23 @@ class ArcadiaApi:
             return {
                 'number_of_subjects': len(subjects),
                 'subjects': subjects,
+            }
+
+    @router.get('/arcadia/subjects_with_counts', status_code=status.HTTP_200_OK)
+    def arcadia_subjects_counts(self):
+        try:
+            subjects_counts: list[dict] = self.arcadia_session.get_arc().get_counts_of_subjects()
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_417_EXPECTATION_FAILED,
+                detail={
+                    'status': 'ERROR',
+                    'error': str(e)
+                })
+        else:
+            return {
+                'number_of_subjects': len(subjects_counts),
+                'subjects_counts': subjects_counts,
             }
 
     @router.get('/arcadia/subjects_index', status_code=status.HTTP_200_OK)
